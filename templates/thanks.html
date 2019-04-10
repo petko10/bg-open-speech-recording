@@ -3,35 +3,41 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Open Speech Recording</title>	
+    <title>Корпус от речеви команди</title>	
     <link href="static/styles/app.css" rel="stylesheet" type="text/css">
   </head>
   <body>
 
+	<script>
+	function deleteAllCookiesAndRedirect() {
+		var cookies = document.cookie.split(";");
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = cookies[i];
+			var eqPos = cookie.indexOf("=");
+			var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+		}
+		window.location.replace("https://bg-commands-corpus.appspot.com/")
+	}
+	</script>
     <div class="wrapper">
 
       <header>
-        <h1>Open Speech Recording</h1>
+        <h1>Корпус от речеви команди</h1>
       </header>
 
       <section class="top-display">
 	<div class="welcome-display">
-          Thanks for contributing your spoken words to this collection! Please do share this
-          page widely so we can create as comprehensive an archive as possible.
+          Благодаря, че допринесохте със записите си към свободната база данни от гласови команди! Споделете тази страница с още хора, за да изградим един пълноценен корпус от речеви записи.
 	</div>
+	<button onclick="deleteAllCookiesAndRedirect()">Правене на запис от друг човек</button>
       </section>
 
     </div>
 
-    <a href="https://github.com/petewarden/open-speech-recording">
+    <a href="https://github.com/petko10/bg-open-speech-recording">
       <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
     </a>
-
-    <footer>
-      <a href="https://www.google.com/intl/en/policies/privacy/">Privacy</a>
-      <a href="https://www.google.com/intl/en/policies/terms/">Terms</a>
-      <a href="/legal">Participant Agreement</a>
-    </footer>
 
   </body>
 </html>

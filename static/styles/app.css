@@ -15,7 +15,7 @@ body {
 
 .wrapper {
   height: 100%;
-  display: flex;
+  //display: flex;
   flex-direction: column;
 }
 
@@ -110,7 +110,7 @@ button:disabled {
  * in the available space */
 .sound-clips {
   flex: 1;
-  overflow: auto;
+  //overflow: auto;
 }
 
 section, article {

@@ -1,3 +1,10 @@
+## Описание на fork-a
+Този форк е адаптация на сайта за събиране на аудио данни за целите на машинното
+обучение, създаден от Pete Warden. Основните промени са свързани с енкодинга и
+преводи на текстовете.
+
+## Оригинално README:
+
 **Open Speech Recording** is a small web application to collect short snippets
 of speech, and upload them to cloud storage. It's designed to help gather open
 speech data sets to train machine learning systems.

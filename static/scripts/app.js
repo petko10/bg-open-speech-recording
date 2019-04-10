@@ -126,7 +126,7 @@ if (navigator.getUserMedia) {
 } else {
   console.log('getUserMedia not supported on your browser!');
   document.querySelector('.info-display').innerText = 
-	'Your device does not support the HTML5 API needed to record audio (this is a known problem on iOS)';  
+	'Устройството Ви не поддържа записване на аудио през браузъра(това е известен за iOS проблем)';  
 }
 
 function visualize(stream) {
@@ -179,39 +179,56 @@ function visualize(stream) {
 }
 
 var wantedWords = [
-  'Zero',
-  'One',
-  'Two',
-  'Three',
-  'Four',
-  'Five',
-  'Six',
-  'Seven',
-  'Eight',
-  'Nine',
-  'On',
-  'Off',
-  'Stop',
-  'Go',
-  'Up',
-  'Down',
-  'Left',
-  'Right',
-  'Yes',
-  'No',
+  'Пусни',
+  'Отиди',
+  'Ела',
+  'Потърси',
+  'Започни',
+  'Спри',
+  'Включи',
+  'Изключи',
+  'Запиши',
+  'Кажи',
+  'Да',
+  'Не',
+  'Танцувай',
+  'Здравей',
+  'Здрасти',
+  'Ива',
+  'Проектор',
+  'Лампа',
+  'Филм',
+  'Охрана',
+  'Снимай',
+  'Стоп'
+];
+
+var wantedWordsASCII = [
+	'pusni',
+	'otidi',
+	'ela',
+	'potyrsi',
+	'zapochni',
+	'spri',
+	'vkliuchi',
+	'izkliuchi',
+	'zapishi',
+	'kaji',
+	'da',
+	'ne',
+	'tancuvai',
+	'zdravei',
+	'zdrasti',
+	'iva',
+	'proektor',
+	'lampa',
+	'film',
+	'ohrana',
+	'snimai',
+	'stop'
 ];
 
 var fillerWords = [
-  'Dog',
-  'Cat',
-  'Bird',
-  'Tree',
-  'Marvin',
-  'Sheila',
-  'House',
-  'Bed',
-  'Wow',
-  'Happy',
 ];
 
 function getRecordedWords() {
@@ -276,6 +293,19 @@ function shuffleArray(array) {
     array[i] = array[j];
     array[j] = temp;
   }
+  //Avoid showing the same word twice because it causes user errors
+  lastWord = document.querySelector('.info-display').innerText;
+  if( (array[0]==lastWord) && (array.length>1) ){
+    //Find the first different word in the array and swap it with array[0]
+    for(var i = 1; i < array.length; i++){
+      if(array[i] != lastWord){
+        var temp = array[0];
+		array[0] = array[i];
+		array[i] = temp;
+		break;
+	  }
+	}
+  }
 }
 
 function getNextWord() {
@@ -331,10 +361,11 @@ function endRecording() {
 }
 
 function promptToSave() {
-  if (confirm('Are you ready to upload your words?\nIf not, press cancel now,' + 
-	      ' and then press Upload once you are ready.')) {
-    saveRecordings();
-  }
+  //if (confirm('Натиснете Ок, за да качите записите си\nАко искате да направите редакции натиснете Отмени (Cancel)' + 
+	//      ' и ще може да ги качите чрез бутона Качване.')) {
+  //  saveRecordings();
+  //}
+  confirm("Готово! Може да натиснете бутона 'Качете', за да пратите записите си.")
   upload.disabled = false;
 }
 
@@ -349,12 +380,20 @@ function saveRecordings() {
 }
 
 function uploadNextClip() {
-  document.querySelector('.progress-display').innerText = 'Uploading clip ' + 
+  document.querySelector('.progress-display').innerText = 'Качване на запис ' + 
 	clipIndex + '/' + unrollWordCounts(getAllWantedWords()).length;
   var clip = allClips[clipIndex];
   clip.style.display = 'None';
   var audioBlobUrl = clip.querySelector('audio').src;
   var word = clip.querySelector('p').innerText;
+  //Adapter hack for the bulgarian wordset (GCS has pretty strict naming policies and secure_filename() is used to check the names, which omits cirilic characters)  
+  for(i=0 ; i<wantedWords.length ; i++) {
+	if(word==wantedWords[i]){
+		word = wantedWordsASCII[i];
+		break;
+	}
+  }
+  
   var xhr = new XMLHttpRequest();
   xhr.open('GET', audioBlobUrl, true);
   xhr.responseType = 'blob';
@@ -375,7 +414,7 @@ function uploadNextClip() {
 	      allDone();
 	    }
           } else {
-            alert('Uploading failed with error code ' + ajaxRequest.status);
+            alert('Качването се провали с код ' + ajaxRequest.status);
           }
 	}
       };
